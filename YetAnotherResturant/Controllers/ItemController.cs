@@ -26,7 +26,6 @@ namespace YetAnotherResturant.Controllers
             ViewBag.items = itemDAL.GetItems();
             return View();
         }
-
         public enum userRoles{
             ProjectManager = 1,
             TeamLeader = 2,
