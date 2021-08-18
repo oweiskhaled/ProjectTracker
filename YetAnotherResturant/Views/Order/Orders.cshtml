@@ -1,0 +1,22 @@
+﻿<a class="btn btn-primary" href="/Order/Create">Create new Order</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Order</th>
+            <th scope="col">Address</th>
+            <th scope="col">Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in (List<Order>)ViewBag.orders)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.Address</td>
+                <td>@order.OrderTime</td>
+                <td><a class="btn btn-info" href="/Order/View?itemId=@order.OrderId">View</a></td>
+            </tr>
+        }
+
+    </tbody>
+</table>

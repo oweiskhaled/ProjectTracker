@@ -1,0 +1,62 @@
+﻿@model YetAnotherResturant.DTO.OrderDTO.CreateOrderDTO
+<script>
+    function SelectMenu() {
+        var selectedCategory = $('#menuCategories').val();
+
+        $.ajax({
+            url: 'https://localhost:44384/Order/GetItems',
+            data: { typeId : selectedCategory },
+            success: function (data) {
+                
+                $('#itemsToSelect').find('option :selected').not(':selected').remove();
+
+                $.each(data, function () {
+                    debugger;
+                    var ids = $('#itemsToSelect').val();
+                    var id = "" + this.Id;
+                    var res = $('#itemsToSelect').val().includes(id);
+                    if (!res)
+                        $("#itemsToSelect").append($("<option/>").val(this.Id).text(this.Item + ' - ' + this.Price));
+                    
+                        
+                });
+            },
+            dataType: 'json'
+        });
+    }
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="View">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="menuCategories" class="form-control" onchange="SelectMenu()">
+                    <option selected>Choose Menu Category</option>
+                    @foreach (var type in (List<ItemType>)ViewBag.types)
+                    {
+                        <option value="@type.Id">@type.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="inputState">Items</label>
+                <select id="itemsToSelect" multiple name="Items" class="form-control">
+                    <option selected>Choose Item</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
